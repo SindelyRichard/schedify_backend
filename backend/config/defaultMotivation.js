@@ -1,0 +1,7 @@
+module.exports = [
+  { title: 'Every big change you admire started with a small, imperfect step. Don’t wait for the perfect moment or for confidence to magically appear. Take that first small step today, no matter how tiny it feels, and let momentum carry you forward. You’re not here to stay stuck; you’re here to grow.'},
+  { title: 'Stop telling yourself you’re behind. You’re not in a race with anyone else’s timeline. Every day you wake up is another chance to align with who you want to become. Focus on your next action, not on what others are doing. Your journey is yours, and you’re right where you need to be to begin again.'},
+  { title: 'Motivation will get you started, but discipline will keep you going when motivation fades. Discipline is the quiet promise you keep to yourself, even when no one is watching. If you want to change your life, start keeping those small promises today. That’s how you build trust in yourself.'},
+  { title: 'Life will challenge you, and it will test you. But remember: you are stronger than you think, and the challenges you face now are building a version of you that can handle the dreams you have. Don’t see your challenges as blocks; see them as fuel for your growth.'},
+  { title: 'Many people say ‘one day I will start.’ But what if today becomes your ‘day one’? One day you will wish you started today. Choose courage over comfort. Take that first action, no matter how small, and let today be the day you draw a line in the sand. Day one starts now.'}
+];
