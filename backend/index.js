@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-dotenv.config({ path: 'ini.env' });
+dotenv.config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -39,5 +39,6 @@ app.post('/api/addTask',taskController.addTasks);
 app.get('/api/getYourTask',taskController.getYourTask);
 app.get('/api/getMotivation',mainController.getMotivations);
 app.get('/api/getTopUsers',userController.getTopPlayers);
+
 
 
