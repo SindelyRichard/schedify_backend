@@ -3,10 +3,23 @@ const User = require('../models/User');
 
 async function dailyTasks(username){
     try {
+        const today = new Date().toDateString();
         const user = await User.findOne({ username });
         if (!user) return { success: false, message: 'User not found' };
         const tasks = await Task.find({ userId:user._id, daily: true });
-        return { success: true, tasks };
+        
+        const formattedTasks = tasks.map(task => {
+        const isCompletedToday =
+        task.lastCompletedDate &&
+        task.lastCompletedDate.toLocaleDateString("hu-HU") === today;
+
+        return {
+          ...task._doc,
+          completed: isCompletedToday
+        };
+      });
+
+        return { success: true, formattedTasks };
     } catch (err) {
         return { success: false, message: 'Server error' };
     }
@@ -64,4 +77,5 @@ module.exports = {
     yourTasks
 
 };
+
 
