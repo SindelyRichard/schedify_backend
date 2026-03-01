@@ -16,7 +16,8 @@ async function registerUser(username, password) {
                 await Task.create({
                     userId: user._id,
                     title: task.title,
-                    daily: task.daily
+                    daily: task.daily,
+                    lastCompletedDate: null
                 });
             }
             return { success: true };
@@ -36,4 +37,5 @@ async function loginUser(username, password) {
 module.exports = {
     registerUser,
     loginUser
+
 };
