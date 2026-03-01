@@ -1,6 +1,5 @@
 const Task = require('../models/Task');
 const User = require('../models/User');
-const cron = require('node-cron');
 
 async function dailyTasks(username){
     try {
@@ -57,19 +56,10 @@ async function yourTasks(username){
 
 }
 
-cron.schedule('0 0 * * *', async () => {
-  try {
-    await Task.updateMany({ daily: true }, { completed: false });
-    await Task.deleteMany({ daily: false });
-    console.log('Daily tasks reset completed');
-  } catch (err) {
-    console.error('Daily reset error:', err);
-  }
-});
-
 module.exports = {
     dailyTasks,
     addTask,
     setTaskCompleted,
     yourTasks
+
 };
