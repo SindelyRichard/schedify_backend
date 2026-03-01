@@ -19,7 +19,7 @@ async function dailyTasks(username){
         };
       });
 
-        return { success: true, formattedTasks };
+        return { success: true, tasks:formattedTasks };
     } catch (err) {
         return { success: false, message: 'Server error' };
     }
@@ -77,5 +77,6 @@ module.exports = {
     yourTasks
 
 };
+
 
 
