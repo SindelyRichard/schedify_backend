@@ -47,9 +47,8 @@ async function setTaskCompleted(id){
     try {
         const task = await Task.findByIdAndUpdate(
             id,
-            { completed: true },
-            { new: true },
-            { lastCompletedDate:  new Date() }
+            { lastCompletedDate:  new Date() },
+            { new: true }
         );
         if (!task) return { success: false, message: 'Task not found' };
         return { success: true, task };
@@ -77,6 +76,7 @@ module.exports = {
     yourTasks
 
 };
+
 
 
 
