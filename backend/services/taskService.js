@@ -1,17 +1,25 @@
 const Task = require('../models/Task');
 const User = require('../models/User');
 
+function calculateDate(today,lastCompletedDate){
+     if (!lastCompletedDate) return false;
+    return(
+        (lastCompletedDate.getFullYear())==(today.getFullYear()) &&
+        ((lastCompletedDate.getMonth())==(today.getMonth())) && 
+        ((lastCompletedDate.getDate())==(today.getDate())));
+    
+}
+
 async function dailyTasks(username){
     try {
-        const today = new Date().toDateString();
+        const today = new Date();
         const user = await User.findOne({ username });
         if (!user) return { success: false, message: 'User not found' };
         const tasks = await Task.find({ userId:user._id, daily: true });
         
         const formattedTasks = tasks.map(task => {
-        const isCompletedToday =
-        task.lastCompletedDate &&
-        task.lastCompletedDate.toLocaleDateString("hu-HU") === today;
+        const isCompletedToday = calculateDate(today,task.lastCompletedDate);
+        
 
         return {
           ...task._doc,
@@ -76,6 +84,7 @@ module.exports = {
     yourTasks
 
 };
+
 
 
 
