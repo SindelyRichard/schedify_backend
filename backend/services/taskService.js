@@ -25,13 +25,12 @@ async function dailyTasks(username){
 
         }
         
-        
         const formattedTasks = result.map(task => {
         const isCompletedToday = calculateDate(today,task.lastCompletedDate);
         
 
         return {
-          ...result._doc,
+          ...result,
           completed: isCompletedToday
         };
       });
