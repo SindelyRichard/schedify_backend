@@ -1,6 +1,7 @@
 const Motivation = require("../models/Motivation");
+const DailyTasks = require("../models/DailyTasks");
 const DEFAULT_MOTIVATIONS = require('../config/defaultMotivation');
-const { title } = require("process");
+const DEFAULT_DAILYTASKS = require("../config/defaultTasks");
 
 async function motivation() {
     try {
@@ -36,7 +37,29 @@ async function seedMotivationsIfEmpty() {
     }
 }
 
+async function seedDailyTasksIfEmpty(){
+    try{
+        const count = await DailyTasks.countDocuments();
+        if(count === 0) {
+            let i = 0;
+            for(const tasks of DEFAULT_DAILYTASKS) {
+                await DailyTasks.create({
+                    title:tasks.title,
+                    idNum:i
+                });
+                i++;
+            }
+            console.log("DailyTasks seeded successfully.");
+        } else {
+            console.log("DailyTasks already exist in the database, skipping seed.");
+        }
+    } catch (err) {
+        console.error("Error seeding DailyTasks:",err);
+    }
+}
+
 module.exports={
     motivation,
-    seedMotivationsIfEmpty
+    seedMotivationsIfEmpty,
+    seedDailyTasksIfEmpty
 };

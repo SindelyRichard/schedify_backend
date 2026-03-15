@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const { seedMotivationsIfEmpty } = require("./services/mainService");
+const { seedMotivationsIfEmpty, seedDailyTasksIfEmpty } = require("./services/mainService");
 
 const  authController  = require('./controllers/authController');
 const  userController  = require('./controllers/userController');
@@ -27,6 +27,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 seedMotivationsIfEmpty();
+seedDailyTasksIfEmpty();
 
 app.post('/api/register', authController.register);
 app.post('/api/login', authController.login);

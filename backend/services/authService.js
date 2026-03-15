@@ -1,4 +1,6 @@
 const User = require('../models/User');
+const Progress = require('../models/TaskProgress');
+const DailyTasks = require('../models/DailyTasks');
 const jwtService = require('../services/jwtService');
 const Task = require('../models/Task');
 const DEFAULT_DAILY_TASKS = require('../config/defaultTasks');
@@ -12,12 +14,12 @@ async function registerUser(username, password) {
             return { success: false, message: 'Username already exists' };
         } else {
             const user = await User.create({ username, password });
-            for (const task of DEFAULT_DAILY_TASKS) {
-                await Task.create({
+            const dailyTasks = await DailyTasks.findAll();
+            for (const task of dailyTasks) {
+                await Progress.create({
                     userId: user._id,
-                    title: task.title,
-                    daily: task.daily,
-                    lastCompletedDate: null
+                    lastCompletedDate: null,
+                    dtId: task.idNum
                 });
             }
             return { success: true };

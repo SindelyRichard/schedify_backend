@@ -1,5 +1,6 @@
 const Task = require('../models/Task');
 const User = require('../models/User');
+const DailyTask = require('../models/DailyTasks');
 
 function calculateDate(today,lastCompletedDate){
      if (!lastCompletedDate) return false;
@@ -15,7 +16,7 @@ async function dailyTasks(username){
         const today = new Date();
         const user = await User.findOne({ username });
         if (!user) return { success: false, message: 'User not found' };
-        const tasks = await Task.find({ userId:user._id, daily: true });
+        const tasks = await DailyTask.find({ userId:user._id });
         
         const formattedTasks = tasks.map(task => {
         const isCompletedToday = calculateDate(today,task.lastCompletedDate);
