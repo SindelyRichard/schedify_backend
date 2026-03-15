@@ -14,7 +14,7 @@ async function registerUser(username, password) {
             return { success: false, message: 'Username already exists' };
         } else {
             const user = await User.create({ username, password });
-            const dailyTasks = await DailyTasks.findAll();
+            const dailyTasks = await DailyTasks.find({});
             for (const task of dailyTasks) {
                 await Progress.create({
                     userId: user._id,
