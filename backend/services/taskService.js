@@ -3,39 +3,39 @@ const User = require('../models/User');
 const Progress = require('../models/TaskProgress');
 const DailyTask = require('../models/DailyTasks');
 
-function calculateDate(today,lastCompletedDate){
-     if (!lastCompletedDate) return false;
-    return(
-        (lastCompletedDate.getFullYear())==(today.getFullYear()) &&
-        ((lastCompletedDate.getMonth())==(today.getMonth())) && 
-        ((lastCompletedDate.getDate())==(today.getDate())));
-    
+function calculateDate(today, lastCompletedDate) {
+    if (!lastCompletedDate) return false;
+    return (
+        (lastCompletedDate.getFullYear()) == (today.getFullYear()) &&
+        ((lastCompletedDate.getMonth()) == (today.getMonth())) &&
+        ((lastCompletedDate.getDate()) == (today.getDate())));
+
 }
 
-async function dailyTasks(username){
+async function dailyTasks(username) {
     try {
         const result = [];
         const today = new Date();
         const user = await User.findOne({ username });
         if (!user) return { success: false, message: 'User not found' };
-        const tasks = await DailyTask.find( {} );
-        for(const task of tasks){
-            const progress = await Progress.findOne( { userId: user._id, dtId:task.idNum} );
-            result.push({...progress._doc, title:task.title});
+        const tasks = await DailyTask.find({});
+        for (const task of tasks) {
+            const progress = await Progress.findOne({ userId: user._id, dtId: task.idNum });
+            result.push({ ...progress._doc, title: task.title });
 
         }
-        
+
         const formattedTasks = result.map(task => {
-        const isCompletedToday = calculateDate(today,task.lastCompletedDate);
-        
+            const isCompletedToday = calculateDate(today, task.lastCompletedDate);
 
-        return {
-          ...task,
-          completed: isCompletedToday
-        };
-      });
 
-        return { success: true, tasks:formattedTasks };
+            return {
+                ...task,
+                completed: isCompletedToday
+            };
+        });
+
+        return { success: true, tasks: formattedTasks };
     } catch (err) {
         return { success: false, message: 'Server error' };
     }
@@ -46,12 +46,12 @@ async function addTask(username, title) {
         const daily = false;
         const user = await User.findOne({ username });
         if (!user) return { success: false, message: 'User not found' };
-        const taskCount = await Task.countDocuments({ userId:user._id,daily:false });
+        const taskCount = await Task.countDocuments({ userId: user._id, daily: false });
 
         if (taskCount >= 5) {
             return { success: false, message: 'Reached maximum task!' };
         }
-        const task = new Task({ userId:user._id, title, daily });
+        const task = new Task({ userId: user._id, title, daily });
         await task.save();
         return { success: true, task };
     } catch (err) {
@@ -59,11 +59,25 @@ async function addTask(username, title) {
     }
 }
 
-async function setTaskCompleted(id){
+async function setDailyTaskCompleted(id) {
+    try {
+        const task = await Progress.findByIdAndUpdate(
+            id,
+            { lastCompletedDate: new Date() },
+            { new: true }
+        );
+        if (!task) return { success: false, message: 'DailyTask not found' };
+        return { success: true, task };
+    } catch (err) {
+        return { success: false, message: 'Server error' };
+    }
+}
+
+async function setTaskCompleted(id) {
     try {
         const task = await Task.findByIdAndUpdate(
             id,
-            { lastCompletedDate:  new Date() },
+            { lastCompletedDate: new Date() },
             { new: true }
         );
         if (!task) return { success: false, message: 'Task not found' };
@@ -73,11 +87,11 @@ async function setTaskCompleted(id){
     }
 }
 
-async function yourTasks(username){
+async function yourTasks(username) {
     try {
         const user = await User.findOne({ username });
         if (!user) return { success: false, message: 'User not found' };
-        const tasks = await Task.find({ userId:user._id, daily: false });
+        const tasks = await Task.find({ userId: user._id, daily: false });
         return { success: true, tasks };
     } catch (err) {
         return { success: false, message: 'Server error' };
@@ -88,9 +102,9 @@ async function yourTasks(username){
 module.exports = {
     dailyTasks,
     addTask,
+    setDailyTaskCompleted,
     setTaskCompleted,
     yourTasks
-
 };
 
 
