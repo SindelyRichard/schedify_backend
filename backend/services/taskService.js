@@ -19,7 +19,7 @@ async function dailyTasks(username){
         const user = await User.findOne({ username });
         if (!user) return { success: false, message: 'User not found' };
         const tasks = await DailyTask.find( {} );
-        for(const task in tasks){
+        for(const task of tasks){
             const progress = await Progress.findOne( { userId: user._id, dtId:task.idNum} );
             result.push({...progress._doc, title:task.title});
 
