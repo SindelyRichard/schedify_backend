@@ -30,7 +30,7 @@ async function dailyTasks(username){
         
 
         return {
-          ...task._doc,
+          ...task,
           completed: isCompletedToday
         };
       });
