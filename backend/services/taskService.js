@@ -43,13 +43,12 @@ async function dailyTasks(username) {
 
 async function yourTasks(username) {
     try {
-        const result = [];
         const today = new Date();
         const user = await User.findOne({ username });
         if (!user) return { success: false, message: 'User not found' };
         const tasks = await Task.find({ userId: user._id });
 
-        const formattedTasks = result.map(task => {
+        const formattedTasks = tasks.map(task => {
             const isCompletedToday = calculateDate(today, task.lastCompletedDate);
 
 
