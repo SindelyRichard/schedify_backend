@@ -41,6 +41,30 @@ async function dailyTasks(username) {
     }
 }
 
+async function yourTasks(username) {
+    try {
+        const result = [];
+        const today = new Date();
+        const user = await User.findOne({ username });
+        if (!user) return { success: false, message: 'User not found' };
+        const tasks = await Task.find({ userId: user._id });
+
+        const formattedTasks = result.map(task => {
+            const isCompletedToday = calculateDate(today, task.lastCompletedDate);
+
+
+            return {
+                ...task,
+                completed: isCompletedToday
+            };
+        });
+        return { success: true, tasks: formattedTasks };
+    } catch (err) {
+        return { success: false, message: 'Server error' };
+    }
+
+}
+
 async function addTask(username, title) {
     try {
         const user = await User.findOne({ username });
@@ -84,18 +108,6 @@ async function setTaskCompleted(id) {
     } catch (err) {
         return { success: false, message: 'Server error' };
     }
-}
-
-async function yourTasks(username) {
-    try {
-        const user = await User.findOne({ username });
-        if (!user) return { success: false, message: 'User not found' };
-        const tasks = await Task.find({ userId: user._id });
-        return { success: true, tasks };
-    } catch (err) {
-        return { success: false, message: 'Server error' };
-    }
-
 }
 
 module.exports = {
