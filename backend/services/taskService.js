@@ -51,9 +51,11 @@ async function yourTasks(username) {
         const formattedTasks = tasks.map(task => {
             const isCompletedToday = calculateDate(today, task.lastCompletedDate);
 
+            const obj = task.toObject();
+
 
             return {
-                ...task,
+                ...obj,
                 completed: isCompletedToday
             };
         });
