@@ -90,7 +90,7 @@ async function yourTasks(username) {
     try {
         const user = await User.findOne({ username });
         if (!user) return { success: false, message: 'User not found' };
-        const tasks = await Task.find({ userId: user._id, daily: false });
+        const tasks = await Task.find({ userId: user._id });
         return { success: true, tasks };
     } catch (err) {
         return { success: false, message: 'Server error' };
