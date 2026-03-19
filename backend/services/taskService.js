@@ -50,7 +50,7 @@ async function addTask(username, title) {
         if (taskCount >= 5) {
             return { success: false, message: 'Reached maximum task!' };
         }
-        const task = new Task({ userId: user._id, title });
+        const task = new Task({ userId: user._id, title: title });
         await task.save();
         return { success: true, task };
     } catch (err) {
