@@ -4,15 +4,17 @@ const Progress = require('../models/TaskProgress');
 const DailyTask = require('../models/DailyTasks');
 
 function calculateDate(today, lastCompletedDate, taskId, isDaily) {
-    const completedToday = (lastCompletedDate.getFullYear()) == (today.getFullYear()) &&
-        ((lastCompletedDate.getMonth()) == (today.getMonth())) &&
-        ((lastCompletedDate.getDate()) == (today.getDate()));
+    if (lastCompletedDate) {
+        const completedToday = (lastCompletedDate.getFullYear()) == (today.getFullYear()) &&
+            ((lastCompletedDate.getMonth()) == (today.getMonth())) &&
+            ((lastCompletedDate.getDate()) == (today.getDate()));
 
-    if (completedToday) {
-        return true;
+        if (completedToday) {
+            return true;
 
-    } else if (!completedToday && !isDaily) {
-        deleteTask(taskId);
+        } else if (!completedToday && !isDaily) {
+            deleteTask(taskId);
+        } else return false;
     } else return false;
 }
 
