@@ -3,13 +3,25 @@ const User = require('../models/User');
 const Progress = require('../models/TaskProgress');
 const DailyTask = require('../models/DailyTasks');
 
-function calculateDate(today, lastCompletedDate) {
-    if (!lastCompletedDate) return false;
-    return (
-        (lastCompletedDate.getFullYear()) == (today.getFullYear()) &&
+function calculateDate(today, lastCompletedDate, taskId, isDaily) {
+    const completedToday = (lastCompletedDate.getFullYear()) == (today.getFullYear()) &&
         ((lastCompletedDate.getMonth()) == (today.getMonth())) &&
-        ((lastCompletedDate.getDate()) == (today.getDate())));
+        ((lastCompletedDate.getDate()) == (today.getDate()));
 
+    if (completedToday) {
+        return true;
+
+    } else if (!completedToday && !isDaily) {
+        deleteTask(taskId);
+    } else return false;
+}
+
+async function deleteTask(taskId) {
+    try {
+        await Task.deleteMany({ _id: taskId });
+    } catch (e) {
+        console.log("Error, failed to delete the task.");
+    }
 }
 
 async function dailyTasks(username) {
@@ -26,7 +38,7 @@ async function dailyTasks(username) {
         }
 
         const formattedTasks = result.map(task => {
-            const isCompletedToday = calculateDate(today, task.lastCompletedDate);
+            const isCompletedToday = calculateDate(today, task.lastCompletedDate, task._id, true);
 
 
             return {
@@ -49,7 +61,7 @@ async function yourTasks(username) {
         const tasks = await Task.find({ userId: user._id });
 
         const formattedTasks = tasks.map(task => {
-            const isCompletedToday = calculateDate(today, task.lastCompletedDate);
+            const isCompletedToday = calculateDate(today, task.lastCompletedDate, task._id, false);
 
             const obj = task.toObject();
 
