@@ -57,6 +57,7 @@ async function dailyTasks(username) {
 
 async function yourTasks(username) {
     try {
+        const result = [];
         const today = new Date();
         const user = await User.findOne({ username });
         if (!user) return { success: false, message: 'User not found' };
@@ -64,20 +65,20 @@ async function yourTasks(username) {
 
         const formattedTasks = tasks.map(task => {
             const isCompletedToday = calculateDate(today, task.lastCompletedDate, task._id, false);
+            if (isCompletedToday !== undefined) {
+                const obj = task.toObject();
 
-            const obj = task.toObject();
-
-
-            return {
-                ...obj,
-                completed: isCompletedToday
-            };
-        });
+                return {
+                    ...obj,
+                    completed: isCompletedToday
+                };
+            }
+            return null;
+        }).filter(task => task !== null);
         return { success: true, tasks: formattedTasks };
     } catch (err) {
         return { success: false, message: 'Server error' };
     }
-
 }
 
 async function addTask(username, title) {
