@@ -1,14 +1,14 @@
 const { verifyToken } = require('../services/jwtService');
-const { dailyTasks,setDailyTaskCompleted,setTaskCompleted,addTask,yourTasks } = require('../services/taskService');
+const { dailyTasks, setDailyTaskCompleted, setTaskCompleted, addTask, yourTasks, editTaskTitle } = require('../services/taskService');
 
-async function getDailyTasks(req,res){
+async function getDailyTasks(req, res) {
     const token = req.cookies.token;
-    if(!token){
-        return res.status(401).json({message:'No token provided'});
+    if (!token) {
+        return res.status(401).json({ message: 'No token provided' });
     }
 
     const decoded = verifyToken(token);
-    if(!decoded){
+    if (!decoded) {
         return res.status(403).json({ message: 'Invalid token' });
     }
     const username = decoded.username;
@@ -31,7 +31,7 @@ async function addTasks(req, res) {
         return res.status(403).json({ message: 'Invalid token' });
     }
     const username = decoded.username;
-    const {title} = req.body;
+    const { title } = req.body;
     if (!title) {
         return res.status(400).json({ message: 'No title provided' });
     }
@@ -43,7 +43,7 @@ async function addTasks(req, res) {
     }
 }
 
-async function setDailyTask(req,res){
+async function setDailyTask(req, res) {
     const token = req.cookies.token;
     if (!token) {
         return res.status(401).json({ message: 'No token provided' });
@@ -62,7 +62,7 @@ async function setDailyTask(req,res){
     }
 }
 
-async function setTask(req,res){
+async function setTask(req, res) {
     const token = req.cookies.token;
     if (!token) {
         return res.status(401).json({ message: 'No token provided' });
@@ -81,14 +81,14 @@ async function setTask(req,res){
     }
 }
 
-async function getYourTask(req,res){
+async function getYourTask(req, res) {
     const token = req.cookies.token;
-    if(!token){
-        return res.status(401).json({message:'No token provided'});
+    if (!token) {
+        return res.status(401).json({ message: 'No token provided' });
     }
 
     const decoded = verifyToken(token);
-    if(!decoded){
+    if (!decoded) {
         return res.status(403).json({ message: 'Invalid token' });
     }
     const username = decoded.username;
@@ -100,10 +100,31 @@ async function getYourTask(req,res){
     }
 }
 
+async function editTitle(req, res) {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ message: 'No token provided' });
+    }
+
+    const decoded = verifyToken(token);
+    if (!decoded) {
+        return res.status(403).json({ message: 'Invalid token' });
+    }
+    const id = req.params.id;
+    const { title } = req.body;
+    const result = await editTaskTitle(id, title);
+    if (result.success) {
+        res.json(result);
+    } else {
+        res.status(500).json({ message: result.message });
+    }
+}
+
 module.exports = {
     getDailyTasks,
     addTasks,
     setDailyTask,
     setTask,
-    getYourTask
+    getYourTask,
+    editTitle
 };

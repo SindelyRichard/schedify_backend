@@ -22,7 +22,7 @@ async function deleteTask(taskId) {
     try {
         await Task.deleteMany({ _id: taskId });
     } catch (e) {
-        console.log("Error, failed to delete the task.");
+        console.log('Error, failed to delete the task.');
     }
 }
 
@@ -126,12 +126,28 @@ async function setTaskCompleted(id) {
     }
 }
 
+async function editTaskTitle(id, newTitle) {
+    try {
+        const task = await Task.findByIdAndUpdate(
+            id,
+            { title: newTitle },
+            { new: true }
+        );
+        if (!task) return { success: false, message: 'Task not found' };
+        return { success: true, task };
+    } catch (err) {
+        return { success: false, message: 'Server error' }
+    }
+
+}
+
 module.exports = {
     dailyTasks,
     addTask,
     setDailyTaskCompleted,
     setTaskCompleted,
-    yourTasks
+    yourTasks,
+    editTaskTitle
 };
 
 

@@ -1,19 +1,21 @@
 const User = require('../models/User');
+const Task = require('../models/Task');
+const TaskProgress = require('../models/Task');
 
 async function getLevelAndXp(username) {
-    const user = await User.findOne({username});
-    if(!user){
-        return {success: false, message: 'User not found!'};
+    const user = await User.findOne({ username });
+    if (!user) {
+        return { success: false, message: 'User not found!' };
     }
-    
-    return { success: true, xp:user.xp,level:user.level };
+
+    return { success: true, xp: user.xp, level: user.level };
 }
 
-async function updateLvlXp(username,level,xp){
+async function updateLvlXp(username, level, xp) {
     const user = await User.findOneAndUpdate(
-        {username},
-        {level,xp},
-        {new:true}
+        { username },
+        { level, xp },
+        { new: true }
     );
     if (!user) {
         return { success: false, message: 'User not found!' };
@@ -22,7 +24,7 @@ async function updateLvlXp(username,level,xp){
 
 }
 
-async function topUsers(){
+async function topUsers() {
     try {
         const topPlayers = await User.find()
             .sort({ level: -1 })
@@ -35,8 +37,39 @@ async function topUsers(){
     }
 }
 
+async function deleteUser(id) {
+    try {
+        await TaskProgress.deleteMany({ userId: id });
+        await Task.deleteMany({ userId: id });
+        await User.findByIdAndDelete(id);
+
+        return { success: true };
+    } catch (err) {
+        return { success: false, message: 'Server error' }
+    }
+}
+
+async function editUsername(newName, currentName) {
+    try {
+        const user = await User.findOneAndUpdate(
+            { username: currentName },
+            { username: newName },
+            { new: true }
+        );
+        if (!user) {
+            return { success: true };
+        } else {
+            return { success: false, message: 'User not found' }
+        }
+    } catch (err) {
+        return { success: false, message: 'Server error' };
+    }
+}
+
 module.exports = {
     getLevelAndXp,
     updateLvlXp,
-    topUsers
+    topUsers,
+    deleteUser,
+    editUsername
 };

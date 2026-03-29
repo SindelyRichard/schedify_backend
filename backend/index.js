@@ -35,12 +35,15 @@ app.get('/api/getLevelXp',userController.getLvlXp);
 app.post('/api/updateLevelXp',userController.updateLevelXp);
 app.get('/api/getDailyTask',taskController.getDailyTasks);
 app.patch('/api/Dailytasks/:id/complete', taskController.setDailyTask);
+app.patch('/api/tasks/:id/edit', taskController.editTitle);
 app.patch('/api/tasks/:id/complete', taskController.setTask);
 app.post('/api/logout',authController.logout);
 app.post('/api/addTask',taskController.addTasks);
 app.get('/api/getYourTask',taskController.getYourTask);
 app.get('/api/getMotivation',mainController.getMotivations);
 app.get('/api/getTopUsers',userController.getTopPlayers);
+app.delete('/api/user/:id/deleteUser', userController.deleteUserAndData);
+app.patch('/api/user/editUsername', userController.editUser);
 
 
 
