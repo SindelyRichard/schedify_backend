@@ -51,6 +51,10 @@ async function deleteUser(id) {
 
 async function editUsername(newName, currentName) {
     try {
+        const existingUser = await findOne({ username: newName });
+        if (existingUser) {
+            return { success: false, message: 'Username already taken' };
+        }
         const user = await User.findOneAndUpdate(
             { username: currentName },
             { username: newName },
@@ -59,7 +63,7 @@ async function editUsername(newName, currentName) {
         if (!user) {
             return { success: false, message: 'User not found' };
         } else {
-            return { success: true }
+            return { success: true, message: 'Username changed' }
         }
     } catch (err) {
         return { success: false, message: 'Server error' };
