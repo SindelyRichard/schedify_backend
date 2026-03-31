@@ -37,9 +37,8 @@ async function topUsers() {
     }
 }
 
-async function deleteUser() {
+async function deleteUser(id) {
     try {
-        const id = decoded.id;
         await TaskProgress.deleteMany({ userId: id });
         await Task.deleteMany({ userId: id });
         await User.findByIdAndDelete(id);
@@ -50,9 +49,8 @@ async function deleteUser() {
     }
 }
 
-async function editUsername(newName) {
+async function editUsername(id,newName) {
     try {
-        const id = decoded.id;
         const existingUser = await User.findOne({ username: newName });
         if (existingUser) {
             return { success: false, message: 'Username already taken' };
