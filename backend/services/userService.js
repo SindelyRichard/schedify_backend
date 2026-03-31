@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Task = require('../models/Task');
-const TaskProgress = require('../models/Task');
+const TaskProgress = require('../models/TaskProgress');
+const mongoose = require('mongoose');
 
 async function getLevelAndXp(username) {
     const user = await User.findOne({ username });
