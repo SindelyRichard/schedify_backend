@@ -79,9 +79,9 @@ async function deleteUserAndData(req, res) {
     const result = await deleteUser(id);
 
     if (result.success) {
-        res.status(204).end;
+        return res.status(204).end;
     } else {
-        res.status(500).json({ message: result.message });
+        return res.status(500).json({ message: result.message });
     }
 }
 
