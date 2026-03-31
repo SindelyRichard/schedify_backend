@@ -37,8 +37,9 @@ async function topUsers() {
     }
 }
 
-async function deleteUser(id) {
+async function deleteUser(userId) {
     try {
+        const id = mongoose.Types.ObjectId(userId);
         await TaskProgress.deleteMany({ userId: id });
         await Task.deleteMany({ userId: id });
         await User.findByIdAndDelete(id);
@@ -49,8 +50,9 @@ async function deleteUser(id) {
     }
 }
 
-async function editUsername(id, newName) {
+async function editUsername(userId, newName) {
     try {
+        const id = mongoose.Types.ObjectId(userId);
         const existingUser = await User.findOne({ username: newName });
         if (existingUser) {
             return { success: false, message: 'Username already taken' };
