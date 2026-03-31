@@ -102,9 +102,9 @@ async function editUser(req, res) {
     const result = await editUsername(id,newName);
 
     if (result.success) {
-        res.json({ success: true });
+        return res.json({ success: true });
     } else {
-        res.status(500).json({ message: result.message });
+        return res.status(500).json({ message: result.message });
     }
 }
 
