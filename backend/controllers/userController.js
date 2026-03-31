@@ -95,9 +95,9 @@ async function editUser(req, res) {
     if (!decoded) {
         return res.status(403).json({ message: 'Invalid token' });
     }
-    const { newName } = req.body;
-    const username = decoded.username;
-    const result = await editUsername(newName, username);
+    const id = req.params.id;
+    const {newName} = req.body;
+    const result = await editUsername(id, newName);
 
     if (result.success) {
         res.json({ success: true });

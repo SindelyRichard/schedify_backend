@@ -43,7 +43,7 @@ app.get('/api/getYourTask',taskController.getYourTask);
 app.get('/api/getMotivation',mainController.getMotivations);
 app.get('/api/getTopUsers',userController.getTopPlayers);
 app.delete('/api/user/:id/deleteUser', userController.deleteUserAndData);
-app.patch('/api/user/editUsername', userController.editUser);
+app.patch('/api/user/:id/editUsername', userController.editUser);
 
 
 
