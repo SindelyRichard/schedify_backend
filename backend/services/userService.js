@@ -1,7 +1,6 @@
 const User = require('../models/User');
 const Task = require('../models/Task');
 const TaskProgress = require('../models/TaskProgress');
-const mongoose = require('mongoose');
 
 async function getLevelAndXp(username) {
     const user = await User.findOne({ username });
@@ -38,9 +37,9 @@ async function topUsers() {
     }
 }
 
-async function deleteUser(userId) {
+async function deleteUser() {
     try {
-        const id = mongoose.Types.ObjectId(userId);
+        const id = decoded.id;
         await TaskProgress.deleteMany({ userId: id });
         await Task.deleteMany({ userId: id });
         await User.findByIdAndDelete(id);
@@ -51,9 +50,9 @@ async function deleteUser(userId) {
     }
 }
 
-async function editUsername(userId, newName) {
+async function editUsername(newName) {
     try {
-        const id = mongoose.Types.ObjectId(userId);
+        const id = decoded.id;
         const existingUser = await User.findOne({ username: newName });
         if (existingUser) {
             return { success: false, message: 'Username already taken' };

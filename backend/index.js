@@ -42,8 +42,8 @@ app.post('/api/addTask',taskController.addTasks);
 app.get('/api/getYourTask',taskController.getYourTask);
 app.get('/api/getMotivation',mainController.getMotivations);
 app.get('/api/getTopUsers',userController.getTopPlayers);
-app.delete('/api/user/:id/deleteUser', userController.deleteUserAndData);
-app.patch('/api/user/:id/editUsername', userController.editUser);
+app.delete('/api/user/deleteUser', userController.deleteUserAndData);
+app.patch('/api/user/editUsername', userController.editUser);
 
 
 

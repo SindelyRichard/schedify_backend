@@ -75,11 +75,10 @@ async function deleteUserAndData(req, res) {
     if (!decoded) {
         return res.status(403).json({ message: 'Invalid token' });
     }
-    const id = req.params.id;
-    const result = await deleteUser(id);
+    const result = await deleteUser();
 
     if (result.success) {
-        return res.status(204).end;
+        return res.status(204).end();
     } else {
         return res.status(500).json({ message: result.message });
     }
@@ -95,9 +94,9 @@ async function editUser(req, res) {
     if (!decoded) {
         return res.status(403).json({ message: 'Invalid token' });
     }
-    const id = req.params.id;
+
     const {newName} = req.body;
-    const result = await editUsername(id, newName);
+    const result = await editUsername(newName);
 
     if (result.success) {
         res.json({ success: true });
