@@ -56,7 +56,7 @@ async function editUsername(id, newName) {
             return { success: false, message: 'Username already taken' };
         }
         const user = await User.findOneAndUpdate(
-            id,
+            { _id: id },
             { username: newName },
             { new: true }
         );
