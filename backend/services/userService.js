@@ -51,7 +51,7 @@ async function deleteUser(id) {
 
 async function editUsername(newName, currentName) {
     try {
-        const existingUser = await findOne({ username: newName });
+        const existingUser = await User.findOne({ username: newName });
         if (existingUser) {
             return { success: false, message: 'Username already taken' };
         }
