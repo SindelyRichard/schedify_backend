@@ -57,9 +57,9 @@ async function editUsername(newName, currentName) {
             { new: true }
         );
         if (!user) {
-            return { success: true };
+            return { success: false, message: 'User not found' };
         } else {
-            return { success: false, message: 'User not found' }
+            return { success: true }
         }
     } catch (err) {
         return { success: false, message: 'Server error' };
