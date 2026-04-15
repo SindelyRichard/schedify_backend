@@ -98,7 +98,7 @@ async function addTask(username, title) {
     }
 }
 
-async function setDailyTaskCompleted(id) {
+async function setDailyTaskCompleted(id, userId) {
     try {
         const task = await Progress.findByIdAndUpdate(
             id,
@@ -106,13 +106,21 @@ async function setDailyTaskCompleted(id) {
             { new: true }
         );
         if (!task) return { success: false, message: 'DailyTask not found' };
+        const user = await User.findById({ userId });
+        if (!user) {
+            return { success: false, message: 'User not found' };
+        }
+        await User.updateOne(
+            { _id: userId },
+            { $inc: { tasksCompleted: 1 } }
+        );
         return { success: true, task };
     } catch (err) {
         return { success: false, message: 'Server error' };
     }
 }
 
-async function setTaskCompleted(id) {
+async function setTaskCompleted(id, userId) {
     try {
         const task = await Task.findByIdAndUpdate(
             id,
@@ -120,6 +128,14 @@ async function setTaskCompleted(id) {
             { new: true }
         );
         if (!task) return { success: false, message: 'Task not found' };
+        const user = await User.findById({ userId });
+        if (!user) {
+            return { success: false, message: 'User not found' };
+        }
+        await User.updateOne(
+            { _id: userId },
+            { $inc: { tasksCompleted: 1 } }
+        );
         return { success: true, task };
     } catch (err) {
         return { success: false, message: 'Server error' };

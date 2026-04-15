@@ -44,6 +44,8 @@ app.get('/api/getMotivation',mainController.getMotivations);
 app.get('/api/getTopUsers',userController.getTopPlayers);
 app.delete('/api/user/deleteUser', userController.deleteUserAndData);
 app.patch('/api/user/editUsername', userController.editUser);
+app.post('/api/changePasswd',authController.changePassword);
+app.post('/api/sendCode',authController.generateCode);
 
 
 

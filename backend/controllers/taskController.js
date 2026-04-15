@@ -53,8 +53,9 @@ async function setDailyTask(req, res) {
     if (!decoded) {
         return res.status(403).json({ message: 'Invalid token' });
     }
+    const userId = decoded.id;
     const id = req.params.id;
-    const result = await setDailyTaskCompleted(id);
+    const result = await setDailyTaskCompleted(id, userId);
     if (result.success) {
         res.json(result.task);
     } else {
@@ -72,8 +73,9 @@ async function setTask(req, res) {
     if (!decoded) {
         return res.status(403).json({ message: 'Invalid token' });
     }
+    const userId = decoded.id;
     const id = req.params.id;
-    const result = await setTaskCompleted(id);
+    const result = await setTaskCompleted(id, userId);
     if (result.success) {
         res.json(result.task);
     } else {
