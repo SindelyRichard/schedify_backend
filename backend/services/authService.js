@@ -18,7 +18,7 @@ async function registerUser(username, password, email) {
         } else {
             const salt = 10;
             const hashedPasswd = await bcrypt.hash(password, salt);
-            const user = await User.create({ username, hashedPasswd, email });
+            const user = await User.create({ username, password:hashedPasswd, email });
             const dailyTasks = await DailyTasks.find({});
             for (const task of dailyTasks) {
                 await Progress.create({
