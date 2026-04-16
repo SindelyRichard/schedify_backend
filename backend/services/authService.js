@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 
+dotenv.config();
+
 async function registerUser(username, password, email) {
     if (!username || !password) {
         return { success: false, message: 'Username and password are required' };
