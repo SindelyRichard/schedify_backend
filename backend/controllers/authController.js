@@ -39,7 +39,7 @@ async function generateCode(req, res) {
   const result = await generateAndSendCode(email);
 
   if (result.success) {
-    res.json({ message: 'Verification code sent to your email' });
+    res.json({ success:true, message: 'Verification code sent to your email' });
   } else {
     res.status(401).json({ message: result.message });
   }
@@ -50,7 +50,7 @@ async function changePassword(req, res) {
   const result = await resetPassword(email, code, newPassword);
 
   if (result.success) {
-    res.json({ message: 'Password changed' });
+    res.json({ success:true, message: 'Password changed' });
   } else {
     res.status(401).json({ message: result.message });
   }
