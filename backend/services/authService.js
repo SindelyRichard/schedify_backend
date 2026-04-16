@@ -34,7 +34,7 @@ async function registerUser(username, password, email) {
 
 async function loginUser(username, password) {
     const user = await User.findOne({ username });
-    const isPasswdCorrect = await bcrypt.commpare(password, user.password);
+    const isPasswdCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswdCorrect) {
         return { success: false, message: 'Invalid username or password' };
     }
