@@ -35,7 +35,7 @@ async function registerUser(username, password, email) {
 async function loginUser(username, password) {
     const user = await User.findOne({ username });
     const isPasswdCorrect = await bcrypt.commpare(password, user.password);
-    if (isPasswdCorrect) {
+    if (!isPasswdCorrect) {
         return { success: false, message: 'Invalid username or password' };
     }
     const token = jwtService.generateToken({ id: user._id, username: user.username });
