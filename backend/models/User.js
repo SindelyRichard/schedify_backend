@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true },
   xp: { type: Number, default: 0 },
   level: { type: Number, default: 1 },
-  resetCode: { tpye: String },
+  resetCode: { type: String },
   codeExpire: { type: Date },
   tasksCompleted: { type: Number, default: 0 }
 });
