@@ -106,7 +106,7 @@ async function setDailyTaskCompleted(id, userId) {
             { new: true }
         );
         if (!task) return { success: false, message: 'DailyTask not found' };
-        const user = await User.findById({ userId });
+        const user = await User.findById(userId);
         if (!user) {
             return { success: false, message: 'User not found' };
         }
@@ -128,7 +128,7 @@ async function setTaskCompleted(id, userId) {
             { new: true }
         );
         if (!task) return { success: false, message: 'Task not found' };
-        const user = await User.findById({ userId });
+        const user = await User.findById(userId);
         if (!user) {
             return { success: false, message: 'User not found' };
         }
