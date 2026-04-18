@@ -46,6 +46,7 @@ app.delete('/api/user/deleteUser', userController.deleteUserAndData);
 app.patch('/api/user/editUsername', userController.editUser);
 app.post('/api/changePasswd',authController.changePassword);
 app.post('/api/sendCode',authController.generateCode);
+app.get('/api/getStat', mainController.getStat);
 
 
 

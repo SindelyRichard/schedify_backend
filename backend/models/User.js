@@ -8,7 +8,8 @@ const UserSchema = new mongoose.Schema({
   level: { type: Number, default: 1 },
   resetCode: { type: String },
   codeExpire: { type: Date },
-  tasksCompleted: { type: Number, default: 0 }
+  tasksCompleted: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model('User', UserSchema);

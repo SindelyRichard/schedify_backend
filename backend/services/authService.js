@@ -2,8 +2,6 @@ const User = require('../models/User');
 const Progress = require('../models/TaskProgress');
 const DailyTasks = require('../models/DailyTasks');
 const jwtService = require('../services/jwtService');
-const Task = require('../models/Task');
-const DEFAULT_DAILY_TASKS = require('../config/defaultTasks');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
@@ -11,8 +9,14 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 async function registerUser(username, password, email) {
-    if (!username || !password) {
-        return { success: false, message: 'Username and password are required' };
+    const trimmedPassword = password.trim();
+    const trimmedUsername = username.trim();
+    const trimmedEmail = email.trim();
+    if (trimmedPassword.length < 6) {
+        return { success: false, message: 'Password must be at least 6 characters' };
+    }
+    if (!trimmedUsername || !trimmedPassword || !trimmedEmail) {
+        return { success: false, message: 'Username, password and email are required' };
     } else {
         const existingUser = await User.findOne({ username });
         if (existingUser) {
@@ -20,7 +24,7 @@ async function registerUser(username, password, email) {
         } else {
             const salt = 10;
             const hashedPasswd = await bcrypt.hash(password, salt);
-            const user = await User.create({ username, password:hashedPasswd, email });
+            const user = await User.create({ username, password: hashedPasswd, email });
             const dailyTasks = await DailyTasks.find({});
             for (const task of dailyTasks) {
                 await Progress.create({

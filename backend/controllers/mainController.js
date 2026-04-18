@@ -1,5 +1,5 @@
 const { verifyToken } = require('../services/jwtService');
-const { motivation } = require('../services/mainService');
+const { motivation, stat } = require('../services/mainService');
 
 async function getMotivations(req,res){
     const token = req.cookies.token;
@@ -19,6 +19,25 @@ async function getMotivations(req,res){
     }
 }
 
+async function getStat(req, res){
+    const token = req.cookies.token;
+    if(!token){
+        return res.status(401).json({message:'No token provided'});
+    }
+
+    const decoded = verifyToken(token);
+    if(!decoded){
+        return res.status(403).json({ message: 'Invalid token' });
+    }
+    const userId = decoded.id;
+    const result = await stat(userId)
+    if(result.success) {
+        res.json({avg:result.avg, completed:result.completed});
+    }
+
+}
+
 module.exports = {
-    getMotivations
+    getMotivations,
+    getStat
 };
