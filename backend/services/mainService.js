@@ -31,11 +31,9 @@ async function stat(userId) {
         if (!user) {
             return { success: false, message: 'User not found' };
         }
-        const days = getDays(user.createdAt, new Date());
-        if (days === 0) {
-            return { success: true, avg: 0, completed: user.tasksCompleted };
-        }
-        const avg = (user.tasksCompleted / (days * 10)) * 100
+        const days = Math.max(1, Math.ceil(getDays(user.createdAt, new Date())));
+        
+        const avg = Math.min(100,(user.tasksCompleted / (days * 10)) * 100)
         return { success: true, avg: avg, completed: user.tasksCompleted };
     } catch (e) {
         return { success: false, message: 'Server error' };
