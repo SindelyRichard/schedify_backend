@@ -22,7 +22,7 @@ async function motivation() {
 
 function getDays(created, now) {
     const diff = Math.abs(now - created);
-    return Math.floor(diff / (1000 * 60 * 60 * 24));
+    return Math.max(1, Math.ceil(diff / (1000 * 60 * 60 * 24)));
 }
 
 async function stat(userId) {
@@ -31,9 +31,11 @@ async function stat(userId) {
         if (!user) {
             return { success: false, message: 'User not found' };
         }
-        const days = Math.max(1, Math.ceil(getDays(user.createdAt, new Date())));
+        const days = getDays(user.createdAt, new Date());
         
-        const avg = Math.min(100,(user.tasksCompleted / (days * 10)) * 100)
+        const maxTask = days * 10;
+
+        const avg = Math.min(100,Math.round((user.tasksCompleted / maxTask) * 100));
         return { success: true, avg: avg, completed: user.tasksCompleted };
     } catch (e) {
         return { success: false, message: 'Server error' };
