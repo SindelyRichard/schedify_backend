@@ -79,7 +79,12 @@ async function generateAndSendCode(email) {
     user.resetCode = code;
     user.codeExpire = Date.now() + 10 * 60 * 1000;
     await user.save();
-    await sendEmail(email, code);
+    try{
+        await sendEmail(email, code);
+    }catch(e){
+        console.log(error,e);
+        return {success: false,message:"Email sending failed"};
+    }
 
     return { success: true };
 
