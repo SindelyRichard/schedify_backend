@@ -48,13 +48,6 @@ async function loginUser(username, password) {
     return { success: true, token };
 }
 
-const transport = nodemailer.createTransport({
-    service: 'Gmail',
-    auth: {
-        user: process.env.EMAIL,
-        pass: process.env.PASSWD
-    }
-});
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendEmail(email, code) {
