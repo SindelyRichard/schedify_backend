@@ -3,7 +3,6 @@ const Progress = require('../models/TaskProgress');
 const DailyTasks = require('../models/DailyTasks');
 const jwtService = require('../services/jwtService');
 const bcrypt = require('bcrypt');
-require('dns').setDefaultResultOrder('ipv4first');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 
@@ -53,7 +52,6 @@ const transport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 465,
     secure: true,
-    family: 4,
     auth: {
         user: process.env.EMAIL,
         pass: process.env.PASSWD
