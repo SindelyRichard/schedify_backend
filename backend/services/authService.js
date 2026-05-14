@@ -58,6 +58,7 @@ const transport = nodemailer.createTransport({
 
 async function sendEmail(email, code) {
     await transport.sendMail({
+        from: process.env.EMAIL,
         to: email,
         subject: 'Password reset',
         text: `Your code is ${code}`
@@ -82,7 +83,7 @@ async function generateAndSendCode(email) {
     try{
         await sendEmail(email, code);
     }catch(e){
-        console.log(error,e);
+        console.log(e);
         return {success: false,message:"Email sending failed"};
     }
 
