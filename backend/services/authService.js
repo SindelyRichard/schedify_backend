@@ -3,6 +3,7 @@ const Progress = require('../models/TaskProgress');
 const DailyTasks = require('../models/DailyTasks');
 const jwtService = require('../services/jwtService');
 const bcrypt = require('bcrypt');
+require('dns').setDefaultResultOrder('ipv4first');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 
