@@ -3,7 +3,7 @@ const Progress = require('../models/TaskProgress');
 const DailyTasks = require('../models/DailyTasks');
 const jwtService = require('../services/jwtService');
 const bcrypt = require('bcrypt');
-import { Resend } from 'resend';
+const { Resend } = require('resend');
 const dotenv = require('dotenv');
 
 dotenv.config();
