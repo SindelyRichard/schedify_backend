@@ -3,7 +3,7 @@ const Progress = require('../models/TaskProgress');
 const DailyTasks = require('../models/DailyTasks');
 const jwtService = require('../services/jwtService');
 const bcrypt = require('bcrypt');
-const nodemailer = require('nodemailer');
+import { Resend } from 'resend';
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -55,14 +55,15 @@ const transport = nodemailer.createTransport({
         pass: process.env.PASSWD
     }
 });
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendEmail(email, code) {
-    await transport.sendMail({
-        from: process.env.EMAIL,
-        to: email,
-        subject: 'Password reset',
-        text: `Your code is ${code}`
-    });
+    resend.emails.send({
+  from: process.env.EMAIL,
+  to: email,
+  subject: 'Password reset',
+  text: `Your code is ${code}`
+});
 }
 
 function generateCode() {
