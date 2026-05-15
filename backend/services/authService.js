@@ -55,7 +55,19 @@ return await resend.emails.send({
   from: process.env.EMAIL,
   to: email,
   subject: 'Password reset',
-  text: `Your code is ${code}`
+  text: 
+`Hi,
+
+We received a request to reset your Schedify password.
+
+You can reset it using this code:
+
+${code}
+
+If you did not request this change, you can safely ignore this email.
+
+Thanks,
+Schedify`
 });
 }
 
