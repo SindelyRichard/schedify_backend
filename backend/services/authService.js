@@ -54,7 +54,7 @@ async function sendEmail(email, code) {
 return await resend.emails.send({
   from: process.env.EMAIL,
   to: email,
-  subject: 'Password reset',
+  subject: 'Reset your Schedify password',
   text: 
 `Hi,
 
